@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rencontres Cœur - Site de rencontre sérieux</title>
+    <meta name="description" content="Rencontre sérieuse et gratuite pour les femmes. Inscription rapide, profils vérifiés, messagerie sécurisée.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #e91e63;
+            --dark: #2c2c2c;
+            --light: #fdfdfd;
+            --gray: #f5f5f5;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--pink);
+        }
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav a:hover { color: var(--pink); }
+
+        .hero {
+            background: linear-gradient(135deg, #fff1f8, #ffffff);
+            text-align: center;
+            padding: 120px 20px;
+        }
+        .hero h1 {
+            font-size: 52px;
+            color: var(--pink);
+            margin: 0 0 20px;
+        }
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            color: #555;
+        }
+        .btn {
+            background: var(--pink);
+            color: white;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 6px 20px rgba(233,30,99,0.3);
+            transition: all 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(233,30,99,0.4); }
+        .btn-secondary {
+            background: #333;
+        }
+
+        .section { padding: 80px 20px; max-width: 1200px; margin: auto; }
+        .section h2 {
+            text-align: center;
+            font-size: 38px;
+            color: var(--pink);
+            margin-bottom: 50px;
+        }
+        .profiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 30px;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .profile-card:hover { transform: translateY(-10px); }
+        .profile-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        .profile-info { padding: 20px; }
+        .profile-info h3 { margin: 10px 0; color: var(--dark); }
+        .profile-info p { color: #777; margin-bottom: 15px; }
+
+        .chat-area {
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            background: white;
+            display: none;
+        }
+        .chat-header {
+            background: var(--pink);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .chat-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .message {
+            margin: 15px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message.me {
+            background: var(--pink);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .message.other {
+            background: #e9ecef;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .message-input {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        .message-input input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            background: #f1f1f1;
+            font-size: 16px;
+            outline: none;
+        }
+        .send-btn {
+            background: var(--pink);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin-left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 22px;
+            color: var(--pink);
+            font-weight: 600;
+            margin: 20px 0;
+        }
+        .paywall {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff8e1;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .paywall h3 { color: var(--pink); }
+
+        footer {
+            background: var(--dark);
+            color: #ccc;
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 50px;
+        }
+        footer a { color: var(--pink); text-decoration: none; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Rencontres Cœur</div>
+        <nav class="nav">
+            <a href="#home">Accueil</a>
+            <a href="#profiles">Membres</a>
+            <a href="#chat">Messagerie</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Trouvez l'amour qui vous ressemble</h1>
+        <p>Inscription 100% gratuite pour les femmes • 2 minutes de discussion offertes • Site sérieux et sécurisé</p>
+        <button class="btn" onclick="openSignup()">Inscription gratuite</button>
+        <button class="btn btn-secondary" onclick="openLogin()">Connexion</button>
+    </section>
+
+    <section id="profiles" class="section">
+        <h2>Ils attendent votre message</h2>
+        <div class="profiles">
+            <div class="profile-card">
+                <img src="https://randomuser.me/api/portraits/women/62.jpg" alt="Laura">
+                <div class="profile-info">
+                    <h3>Laura, 29 ans • Paris</h3>
+                    <p>Passion voyages ✈️ et bonne cuisine</p>
+                    <button class="btn" onclick="chatWith('Laura')">Envoyer un message</button>
+                </div>
+            </div>
+            <div class="profile-card">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Thomas">
+                <div class="profile-info">
+                    <h3>Thomas, 34 ans • Lyon</h3>
+                    <p>Sport, concerts et soirées entre amis</p>
+                    <button class="btn" onclick="chatWith('Thomas')">Envoyer un message</button>
+                </div>
+            </div>
+            <div class="profile-card">
+                <img src="https://randomuser.me/api/portraits/women/81.jpg" alt="Camille">
+                <div class="profile-info">
+                    <h3>Camille, 26 ans • Bordeaux</h3>
+                    <p>Photographie & amour des animaux</p>
+                    <button class="btn" onclick="chatWith('Camille')">Envoyer un message</button>
+                </div>
+            </div>
+            <div class="profile-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Julien">
+                <div class="profile-info">
+                    <h3>Julien, 31 ans • Marseille</h3>
+                    <p>Entrepreneur & randonnées</p>
+                    <button class="btn" onclick="chatWith('Julien')">Envoyer un message</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chat" class="section">
+        <div id="timer" class="timer hidden">Temps gratuit restant : <span id="timeLeft">2:00</span></div>
+
+        <div id="chatArea" class="chat-area">
+            <div class="chat-header">Discussion avec <span id="chatWithName"></span></div>
+            <div id="messages" class="chat-messages"></div>
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="Écrivez votre message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+
+        <div id="paywall" class="paywall">
+            <h3>Votre temps gratuit est terminé</h3>
+            <p>Débloquez la messagerie illimitée en 1 clic :</p>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_xclick">
+                <input type="hidden" name="business" value="ton-email-paypal@domaine.com"> <!-- Change ici ton vrai email PayPal -->
+                <input type="hidden" name="item_name" value="Accès illimité - Rencontres Cœur">
+                <input type="hidden" name="amount" value="29.90">
+                <input type="hidden" name="currency_code" value="EUR">
+                <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" style="margin:20px 0;">
+            </form>
+            <p><small>Paiement 100% sécurisé via PayPal</small></p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Rencontres Cœur - Site de rencontre sérieux</p>
+        <p>Une question ? <a href="mailto:contact@rencontres-coeur.fr">Contactez-nous</a></p>
+    </footer>
+
+    <!-- Modales -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color:var(--pink);">Inscription gratuite</h2>
+            <input type="email" id="signupEmail" placeholder="Votre adresse email">
+            <select id="signupGender">
+                <option value="">Je suis...</option>
+                <option value="femme">Une femme</option>
+                <option value="homme">Un homme</option>
+            </select>
+            <button class="btn" onclick="submitSignup()">Créer mon compte</button>
+            <button onclick="closeModals()" style="background:#999;color:white;margin-top:10px;">Fermer</button>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color:var(--pink);">Connexion</h2>
+            <input type="email" id="loginEmail" placeholder="Votre email">
+            <button class="btn" onclick="submitLogin()">Se connecter</button>
+            <button onclick="closeModals()" style="background:#999;color:white;margin-top:10px;">Fermer</button>
+        </div>
+    </div>
+
+<script>
+    const CREATOR_EMAIL = "abdelbaldi@hotmail.fr"; // gardé uniquement pour la reconnaissance admin (invisible pour les visiteurs)
+    let isCreator = false;
+    let isWoman = false;
+    let timeLeft = 120;
+    let timerInterval = null;
+    let currentChat = "";
+
+    function openSignup() { document.getElementById("signupModal").style.display = "flex"; }
+    function openLogin() { document.getElementById("loginModal").style.display = "flex"; }
+    function closeModals() {
+        document.getElementById("signupModal").style.display = "none";
+        document.getElementById("loginModal").style.display = "none";
+    }
+
+    function submitSignup() {
+        const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+        const gender = document.getElementById("signupGender").value;
+
+        if (!email || !gender) return alert("Veuillez remplir tous les champs");
+
+        if (email === CREATOR_EMAIL) {
+            isCreator = true;
+            alert("✨ Bienvenue créateur ! Accès illimité activé à vie ✨");
+        } else {
+            isWoman = (gender === "femme");
+            if (!isWoman) startTimer();
+        }
+
+        closeModals();
+        document.getElementById("chatArea").style.display = "block";
+        document.getElementById("timer").classList.toggle("hidden", isCreator || isWoman);
+    }
+
+    function submitLogin() {
+        const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+        if (email === CREATOR_EMAIL) {
+            isCreator = true;
+            alert("Connexion créateur réussie ! Accès total.");
+        } else {
+            isWoman = confirm("Êtes-vous une femme ? (OK = oui)");
+            if (!isWoman) startTimer();
+        }
+        closeModals();
+        document.getElementById("chatArea").style.display = "block";
+    }
+
+    function startTimer() {
+        document.getElementById("timer").classList.remove("hidden");
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            const s = String(timeLeft % 60).padStart(2, '0');
+            document.getElementById("timeLeft").textContent = `${m}:${s}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                showPaywall();
+            }
+        }, 1000);
+    }
+
+    function showPaywall() {
+        if (isCreator || isWoman) return;
+        document.getElementById("chatArea").style.display = "none";
+        document.getElementById("paywall").style.display = "block";
+    }
+
+    function chatWith(name) {
+        if (!isCreator && !isWoman && timeLeft <= 0) return showPaywall();
+
+        currentChat = name;
+        document.getElementById("chatWithName").textContent = name;
+        document.getElementById("chatArea").style.display = "block";
+        document.getElementById("paywall").style.display = "none";
+        document.getElementById("messages").innerHTML = `<div class="message other">${name} est en train d'écrire...</div>`;
+
+        setTimeout(() => {
+            document.getElementById("messages").innerHTML = `<div class="message other">Salut ! 😊 Enchanté(e) de faire ta connaissance !</div>`;
+        }, 2000);
+    }
+
+    function sendMessage() {
+        if (!isCreator && !isWoman && timeLeft <= 0) return showPaywall();
+
+        const input = document.getElementById("messageInput");
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        // Filtre anti-coordonnées
+        const forbidden = ["@", "hotmail", "gmail", "yahoo", "outlook", "whatsapp", "snap", "instagram", "telegram", "tiktok", "facebook", "+33", "06", "07"];
+        if (forbidden.some(w => msg.toLowerCase().includes(w))) {
+            alert("⛔ L'échange de coordonnées personnelles est interdit sur le site.");
+            return;
+        }
+
+        const div = document.createElement("div");
+        div.className = "message me";
+        div.textContent = msg;
+        document.getElementById("messages").appendChild(div);
+        input.value = "";
+        document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+
+        setTimeout(() => {
+            const replies = [
+                "Ah oui carrément ! 😍",
+                "T’es vraiment sympa toi 🤗",
+                "J’adore ton énergie ❤️",
+                "Continue, j’aime trop discuter avec toi…",
+                "T’as un truc qui me plaît vraiment 😏",
+                "T’es différent(e) des autres, j’aime ça !"
+            ];
+            const bot = document.createElement("div");
+            bot.className = "message other";
+            bot.textContent = replies[Math.floor(Math.random() * replies.length)];
+            document.getElementById("messages").appendChild(bot);
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+        }, 1500 + Math.random() * 2500);
+    }
+</script>
+</body>
+</html>
